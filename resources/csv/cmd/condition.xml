@@ -1,0 +1,135 @@
+<configs namespace="cfg.cmd.condition">
+	<enum name="LimitType">
+		<const name="DAY" value="1" alias="每日限购"/>
+		<const name="WEEK" value="2" alias="每周限购"/>
+		<const name="MONTH" value="3" alias="每月限购"/>
+		<const name="LIFELONG" value="4" alias="终生限购"/>
+	</enum>
+	
+	<bean name="Condition">
+		<bean name="Gender">
+			<field name="gender" type="cfg.role.GenderType"/>
+		</bean>
+		<bean name="MinLevel">
+			<field name="level" type="int"/>
+		</bean>
+		<bean name="MaxLevel">
+			<field name="level" type="int"/>
+		</bean>
+		<bean name="MinMaxLevel">
+			<field name="min" type="int"/>
+			<field name="max" type="int"/>
+		</bean>
+		<bean name="MinVipLevel">
+			<field name="level" type="int"/>
+		</bean>
+		<bean name="MinFamilyLevel">
+			<field name="level" type="int"/>
+		</bean>
+		<bean name="MinFamilyShopLevel">
+			<field name="level" type="int"/>
+		</bean>
+		<bean name="OneItem">
+			<field name="itemid" type="int"/>
+		</bean>
+		<bean name="Item">
+			<field name="itemid" type="int"/>
+			<field name="amount" type="int"/>
+		</bean>
+		<bean name="Currency">
+			<field name="currencytype" type="cfg.currency.CurrencyType"/>
+			<field name="amount" type="int"/>
+		</bean>
+		<bean name="Currencys">
+			<field name="currencys" type="list:Currency"/>
+		</bean>
+		<bean name="FamilyMoney">
+			<field name="money" type="long"/>
+		</bean>
+		<bean name="FixCurrency">
+			<field name="amount" type="int"/>
+			<bean name="XuNiBi"/>
+			<bean name="YuanBao"/>
+			<bean name="BindYuanBao"/>
+			<bean name="LingJing"/>
+			<bean name="JingYan"/>
+			<bean name="ZaoHua"/>
+			<bean name="WuXing"/>
+			<bean name="BangPai"/>
+			<bean name="ShiMen"/>
+			<bean name="ZhanChang"/>
+			<bean name="ShengWang"/>
+			<bean name="HuoBanJiFen"/>
+			<bean name="FaBaoJiFen"/>
+			<bean name="ChengJiu"/>
+			<bean name="BangGong"/>
+			<bean name="TianFu"/>
+			<bean name="TiLi"/>
+		</bean>
+		<bean name="OR">
+			<field name="first" type="Condition"/>
+			<field name="second" type="Condition"/>
+		</bean>
+		<bean name="ORs">
+			<field name="conditions" type="list:Condition"/>
+		</bean>
+		<bean name="VipLimitsLite">精简后的Vip限制
+			<field name="entertimes" type="list:int"/>进入次数，是个数组，第一个是vip0      5,6,6,7,7,8,9,10
+		</bean>
+		<bean name="VipLimits"> 每日限制
+			<field name="currencytype" type="cfg.currency.CurrencyType"/> 
+			<field name="entertimes" type="list:int"/>进入次数，是个数组，第一个是vip0      5,6,6,7,7,8,9,10
+			<field name="amout" type="list:int"/>     0,0,0,0,0,5,5,5,5,5,5,5
+		</bean>
+		<bean name="VipLimits2">
+			<field name="entertimes" type="list:int"/>进入次数，是个数组，第一个是vip0      5,6,6,7,7,8,9,10
+			<field name="costs" type="list:Condition"/>
+		</bean>
+		<bean name="Limit">
+			<field name="type" type="LimitType"/>
+			<field name="num" type="int"/>
+		</bean>
+		<bean name="DayLimit">简单的每日限制
+			<field name="num" type="int"/>
+		</bean>
+		<bean name="Limits">
+			<field name="limits" type="list:Limit"/>
+		</bean>
+		<bean name="TimeLimit">
+			<field name="limittype" type="LimitType"/>
+			<field name="starttime" type="int"/>
+			<field name="endtime" type="int"/>
+		</bean>
+		<bean name="CoolDown">冷却
+			<field name="time" type="float"/>
+		</bean>
+		<bean name="GroupCoolDown">
+			<field name="groupid" type="int"/>
+			<field name="time" type="float"/>
+		</bean>
+		<bean name="TeamMemberNumber">
+			<field name="min" type="int"/>
+			<field name="max" type="int"/>
+		</bean>
+		<bean name="CompleteTask">
+			<field name="taskid" type="int"/>
+		</bean>
+		<bean name="OpenEctype">
+			<field name="ectypeid" type="int"/>
+		</bean>
+		<bean name="ServerController">
+			<field name="controllerid" type="int"/>
+		</bean>
+		<bean name="ProfessionLimit">
+			<field name="profession" type="cfg.role.EProfessionType"/>
+		</bean>
+		<bean name="BlackMallOpen">
+		</bean>
+		<bean name="NearNPC">
+			<field name="npcid" type="int"/>
+		</bean>
+		<bean name="MultiCondition">
+			<field name="conditions" type="list:Condition"/>
+		</bean>
+	</bean>
+</configs>

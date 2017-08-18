@@ -1,0 +1,111 @@
+﻿<?xml version="1.0" encoding="utf8"?>
+
+<module name="cfg.role">
+	<enum name="NamePosition">
+		<const name="FROND" alias="前"/>
+		<const name="MIDDLE" alias="中"/>
+		<const name="END" alias="后"/>
+	</enum>
+	<bean name="Names">
+		<field group="server" name="names" type="list:string"/>
+	</bean>
+	<bean name="DecorateName">
+		<field group="server" name="name" type="string"/>
+		<field group="server" name="position" type="NamePosition"/>
+		<field group="server" name="weight" type="int"/>
+	</bean>
+	<table name="Name" input="name.xlsx" mode="one" group="client">
+		<field group="server" name="firstnames" type="list:Names"/>
+		<field group="server" name="lastnames" type="Names"/>
+		<field group="server" name="deconames" type="list:DecorateName"/>
+	</table>
+
+	<enum name="EProfessionType">
+		<const name="QINGYUNMEN" alias="青云门"  value="1"/>
+		<const name="TIANYINSI" alias="天音寺"  value="2"/>
+		<const name="GUIWANGZONG" alias="鬼王宗"  value="3"/>
+		<const name="HEHUANPAI" alias="合欢派"  value="4"/>
+	</enum>
+	<enum name="GenderType">
+		<const name="MALE" alias="男" value="0"/>
+		<const name="FEMALE" alias="女" value="1"/>
+	</enum>
+
+	<table name="Profession" input="profession.xlsx" group="server" line="true">
+		<field group="server" desc="职业Id" name="id" type="int" />
+		<field group="server" desc="门派" name="faction" type="EProfessionType" />
+		<field group="server" desc="性别" name="gender" type="GenderType" />
+		<field group="server" desc="职业是否开放" name="isopen" type="bool" />
+		<field group="server" name="modelname" type="string"/>
+		<field group="server" name="weight" type="int"/>
+		<field group="server" desc="法宝技能动作id" name="skillactionid" type="int" />
+		<field group="server" name="defaultweaponid" type="int"/>角色空手时表现的武器id
+		<field group="server" name="createweaponid" type="int"/>创建角色时表现的武器id
+		<field group="server" name="createarmourid" type="int"/>创建角色时表现的防具id
+	</table>
+	
+
+	<enum name="BagType">背包类型
+		<const name="ITEM"/>
+		<const name="FRAGMENT"/>
+		<const name="EQUIP"/>
+	</enum>
+	
+	<bean name="Vector2">
+		<field group="server" name="x" type="float"/>
+		<field group="server" name="y" type="float"/>
+	</bean>
+	
+
+	<bean name="TestBean">
+		<field group="server" name="a1" type="bool"/>
+		<field group="server" name="a2" type="int"/>
+		<field group="server" name="a3" type="long"/>
+		<field group="server" name="a4" type="float"/>
+		<field group="server" name="a5" type="double"/>
+				<field group="server" name="a6" type="string"/>
+		<field group="server" name="a7" type="list:int"/>
+		<field group="server" name="a8" type="list:float"/>
+		<field group="server" name="a11" type="set:int"/>
+		<field group="server" name="a12" type="set:double"/>
+				<field group="server" name="a13" type="map:int:int"/>
+		<field group="server" name="a14" type="map:int:string"/>
+		<field group="server" name="a15" type="map:int:Vector2"/>
+		<field group="server" name="a16" type="Vector2"/>
+		<field group="server" name="a17" type="cfg.role.task.Roletable"/>
+	</bean>
+	
+	<module name="task">	
+		<bean name="Index">
+			<field name="id" type="int" group="client"/>
+			<field name="id2" type="int" group="client"/>
+		</bean>
+		<table name="Roletable" input="testdynamic.xlsx" group="server">
+			<field group="server" name="bornmap" type="int"/>
+			<field group="server" name="viewportminradius" type="float"/>
+			
+			<bean name="RoleTable2">
+				<field name="a" type="int" group="server" ref="roletable"/>
+				<field name="b" type="list:Index" index="id:id2" group="server"/>
+			<field group="server" name="pro" type="cfg.role.EProfessionType"/>
+			</bean>
+			<bean name="RoleTable3">
+				<field name="a" type="int" group="server"/>
+				<bean name="RoleTable4">
+					<field name="a1" type="string" group="client" refpath="item/*.xml|role/*.xml"/>
+				</bean>
+				<bean name="RoleTable5">
+					<field name="a2" type="int" group="server"/>
+					<field name="a3" type="string" group="client"/>
+					<field name="a4" type="int" group="client" ref="roletable"/>
+					<field name="a5" type="list:int" group="client" ref="roletable"/>
+					<field name="a6" type="set:int" group="client" ref="roletable"/>
+					<field name="a7" type="map:int:int" group="client" ref="roletable:roletable"/>
+				</bean>			
+			</bean>
+		</table>
+		<!--table name="TTestDynamic" type="Roletable" input="testdynamic.xlsx" group="server" line="true"/>
+		<table name="TTestDynamic2" type="Roletable" input="testdynamic2.xlsx" group="server" mode="list" line="true"/>
+		<table name="TTestDynamic3" type="Roletable" input="testdynamic3.xlsx" group="server" mode="one" line="true"/-->
+	</module>	
+</module>

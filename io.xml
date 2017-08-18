@@ -1,0 +1,79 @@
+<module name="msg">
+	<msg name="Challenge">
+		<field name="nonce" type="string"/>
+		<field name="user" type="User"/>
+	</msg>
+	<msg name="Response">
+		<field name="ret" type="string"/>
+		<field name="user" type="User"/>
+	</msg>
+
+	<bean name="Test1">
+		<field name="a" type="int"/>
+		<bean name="Test2" id="1">
+			<field name="a2" type="bool"/>
+		</bean>
+		<bean name="Test3" id="2">
+			<field name="a2" type="bool"/>
+			<field name="a3" type="long"/>
+		</bean>
+	</bean>
+
+	<bean name="User">
+		<field name="a" type="int"/>
+		<field name="a2" type="bool"/>
+		<field name="a3" type="long"/>
+		<field name="a4" type="float"/>
+		<field name="a5" type="double"/>
+		<field name="a6" type="string"/>
+		<field name="a7" type="binary"/>
+		<field name="a8" type="list:int"/>
+		<field name="a9" type="list:Role"/>
+		<field name="a19" type="list:Test1"/>
+		<field name="b1" type="set:int"/>
+		<field name="b2" type="map:int:long"/>
+		<field name="b3" type="map:int:Role"/>
+		<field name="b4" type="map:int:Test1"/>		
+		<field name="c1" type="Role"/>
+		<field name="c2" type="Test1"/>
+	</bean>
+
+	<bean name="Role">
+		<field name="a" type="int"/>
+		<field name="a2" type="bool"/>
+	</bean>
+
+	<msg name="CGet" id="15">
+		<field name="a" type="int"/>
+	</msg>
+
+	<ref name="gs">
+		<msg name="msg.role.CGet"/>
+		<bean name="msg.role.User"/>
+		<ref name="link"/>
+		<module name="msg.role"/>
+	</ref>
+	<ref name="link">
+		<msg name="msg.CGet"/>
+	</ref>
+	
+	
+	
+	<module name="role">
+		<bean name="User">
+			<field name="a" type="int"/>
+			<field name="a2" type="bool"/>
+		</bean>
+
+		<bean name="Role">
+			<field name="a" type="int"/>
+			<field name="a2" type="bool"/>
+		</bean>
+
+		<msg name="CGet">
+			<field name="a" type="int"/>
+		</msg>
+
+	</module>
+
+</module>

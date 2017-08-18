@@ -1,0 +1,305 @@
+﻿<configs namespace="cfg.ectype">
+	<enum name="EctypeEnviroment">
+		<const name="env1" value="1"/>
+		<const name="env2" value="2"/>
+		<const name="env3" value="3"/>
+	</enum>
+
+	<enum name="AreaType">
+		<const name="CURVE" value="0"/>
+		<const name="CIRCULAR" value="1"/>
+	</enum>
+
+	<enum name="LayoutType">
+		<const name="ENTER" value="0"/>
+		<const name="NORMAL" value="1"/>
+		<const name="EXIT" value="2"/>
+	</enum>
+
+	<enum name="MathOperator">
+		<const name="ADD" value="1"/>加
+		<const name="SUB" value="2"/>减
+		<const name="MUL" value="3"/>乘
+		<const name="SET" value="4"/>赋值
+	</enum>
+	<enum name="CompareOperator">
+		<const name="EQUAL" value="1"/>等于
+		<const name="GREATER" value="2"/>大于
+		<const name="LESS" valule="3"/>小于
+		<const name="GREATER_OR_EQUAL" value="4"/>大于等于
+		<const name="LESS_OR_EQUAL" value="5"/>小于等于
+		<const name="NOT_EQUAL" value="6"/>
+	</enum>
+
+	<bean name="Enviroment">
+		<field name="name" type="EctypeEnviroment" desc="环境变量名"/>
+		<field name="value" type="int" desc="环境变量值"/>
+	</bean>
+
+	<bean name="MissionKillMonster">
+		<field name="monsterid" type="int" />
+		<field name="enviroment" type="EctypeEnviroment"/>
+		<field name="count" type="int"/>
+	</bean>
+
+	<bean name="MissionCollectMineral">
+		<field name="mineralid" type="int"/>
+		<field name="enviroment" type="EctypeEnviroment"/>
+		<field name="count" type="int"/>
+	</bean>
+
+	<config name="StoryLayout" index="id" input="storylayoutconfig" >
+		<field name="id" type="int" desc="副本 ID"/>
+		<field name="enviroments" type="list:Enviroment" desc="环境变量"/>
+		<field name="layouts" type="list:Layout" index="id" desc="版面列表"/>
+		<field name="storyexitscene" type="int" desc="副本离开场景"/>
+	</config>
+
+
+	<bean name="ExeCondition">
+		<bean name="DamageValue">
+			<field name="id" type="int" desc="目标ID"/>
+			<field name="op" type="string" desc="关系运算符"/>
+			<field name="value" type="string" desc="目标值"/>
+		</bean>
+
+		<bean name="SurviveTime">
+			<field name="time" type="int" desc="目标存活时间"/>
+		</bean>
+
+		<bean name="SpecialSwitch">
+			<field name="id" type="int" desc="特效ID"/>
+		</bean>
+
+		<bean name="Variator">
+			<field name="enviroment" type="EctypeEnviroment" desc="环境变量"/>
+			<field name="value" type="int" desc="环境变量值"/>
+		</bean>
+
+		<bean name="ConditionTimer">
+			<field name="id" type="int" desc="计时器ID"/>
+		</bean>
+
+		<bean name="HPPercent">
+			<field name="id" type="int" desc="怪物ID"/>
+			<field name="op" type="string" desc="运算符"/>
+			<field name="percent" type="float" desc="百分比"/>
+		</bean>
+
+		<bean name="Controller">
+			<field name="id" type="int" desc="控制器ID"/>
+		</bean>
+
+		<bean name="CheckVariator">
+			<field name="name" type= "EctypeEnviroment" desc="环境变量ID"/>
+			<field name="op" type="CompareOperator" desc="运算符"/>
+			<field name="value" type="int" desc="对比值"/>
+		</bean>
+	</bean>
+
+	<bean name="Case">
+		<field name="conditions" type="list:ExeCondition"/>
+		<field name="action" type="Action"/>
+	</bean>
+
+	<bean name="Action">
+		<field name="actionid" type="int"/>
+		<field name="isglobal" type="bool"/>
+		<bean name="Parallel">
+			<field name="actions" type="list:Action"/>
+		</bean>
+		<bean name="Sequence">
+			<field name="actions" type="list:Action"/>
+		</bean>
+		<bean name="SwitchUntil">
+			<field name="cases" type="list:Case"/>
+		</bean>
+		<bean name="Switch">
+			<field name="cases" type="list:Case"/>
+		</bean>
+		<bean name="OnceTimer">
+			<field name="id" type="int" desc="单次计时器ID"/>
+			<field name="time" type="int" desc="持续时间"/>
+		</bean>
+
+		<bean name="CirculateTimer">
+			<field name="id" type="int" desc="循环计时器ID"/>
+			<field name="time" type="int" desc="持续时间"/>
+		</bean>
+
+		<bean name="StopTimer">
+			<field name="id" type="int" desc="计时器id" />
+		</bean>
+
+		<bean name="Move">
+			<field name="targetid" type="int" desc="目标ID"/>
+			<field name="pathid" type="int" desc="路径ID"/>
+		</bean>
+
+		<bean name="PlayCG">
+			<field name="name" type="string" desc="CG name"/>
+			<field name="canskip" type="bool" desc="是否可以跳过"/>
+		</bean>
+
+		<bean name="Dialog">
+			<field name="id" type="int" desc="目标ID"/>
+			<field name="isbubble" type="bool" desc="false气泡对话 true半身对话"/>
+			<field name="speakertype" type="int" desc="0playerrole 1npc 2monster"/>
+			<field name="time" type="int" desc="对话时长"/>
+			<field name="audioid" type="int" desc="音频ID"/>
+			<field name="content" type="string" desc="对话内容"/>
+			<field name="side" type="int" desc= "0左 1右"/>
+			<field name="isstop" type="bool" />
+            <field name="dialogtype" type="int"/>
+		</bean>
+
+		<bean name="CharacterAction">
+			<field name="id" type="int" desc="目标角色ID"/>
+			<field name="action" type="string" desc="目标动作"/>
+			<field name="playtype" type="int" desc="1单次 2循环"/>
+			<field name="actortype" type="int" desc="0玩家 1NPC 2怪物"/>
+		</bean>
+
+		<bean name="ControllerOperation">
+			<field name="id" type="int" desc="控制器ID"/>
+			<field name="isopen" type="bool" desc="true开 false关"/>
+		</bean>
+
+		<bean name="SetEnviroment">
+			<field name="name" type="EctypeEnviroment" desc="环境变量名"/>
+			<field name="value" type="int" desc="目标环境变量值"/>
+		</bean>
+
+		<bean name="EnviromentOperate">
+			<field name="name" type="EctypeEnviroment" desc="环境变量名"/>
+			<field name="op" type="MathOperator" desc="运算符"/>
+			<field name="value" type="int" desc="值"/>
+		</bean>
+
+		<bean name="PlaySkill">
+			<field name="characterid" type="int" desc="角色ID"/>
+			<field name="skillid" type="int" desc="技能ID"/>
+		</bean>
+
+		<bean name="CallMonster">
+			<field name="id" type="int" desc="怪物ID"/>
+		</bean>
+
+		<bean name="CallMineral">
+			<field name="id" type="int" desc="矿物ID"/>
+			<field name="time" type="int" desc="持续时间"/>
+		</bean>
+
+		<bean name="CallSpecialEffect">
+			<field name="id" type="int" desc="特效ID"/>
+			<field name="time" type="int" desc="持续时间"/>
+		</bean>
+
+		<bean name="Delay">
+			<field name="time" type="int" desc="延迟时间"/>
+		</bean>
+
+		<bean name="PlayAudio">
+			<field name="id" type="int" desc="音频ID"/>
+		</bean>
+
+		<bean name="GetBuff">
+			<field name="characterid" type="int" desc="角色ID"/>
+			<field name="buffid" type="int" desc="buff"/>
+		</bean>
+
+		<bean name="ShapeShift">
+			<field name="characterid" type="int" desc="目标角色ID"/>
+			<field name="shapeid" type="int" desc="目标模型ID"/>
+		</bean>
+
+		<bean name="GFX">
+			<field name="id" type="int" desc="场景文字特效ID"/>
+		</bean>
+
+		<bean name="PlayerEffect">
+			<field name="id" type="int" desc="召唤自身特效ID"/>
+		</bean>
+
+		<bean name="Enter">
+			<field name="isopen" type="bool" desc="true:开入口 false关入口"/>
+			<field name="id" type="int" desc="出入口ID"/>
+		</bean>
+
+		<bean name="Exit">
+			<field name="id" type="int" desc="出口ID"/>
+			<field name="isopen" type="bool" desc="true开出口 false关出口"/>
+		</bean>
+
+		<bean name="LayoutFinished">
+			<field name="flayoutid" type="int" desc="完成版面"/>
+		</bean>
+
+		<bean name="AlertRange">
+			<field name="id" type="int" desc="怪物ID"/>
+			<field name="range" type="float" desc="警戒范围"/>
+		</bean>
+
+		<bean name="AlterGuide">
+			<field name="content" type="string"/>
+			<field name="guideparams" type="list:int"/>
+		</bean>
+
+		<bean name="KillMonster">
+			<field name="missions" type="list:MissionKillMonster" index="monsterid"/>
+		</bean>
+
+		<bean name="CollectMineral">
+			<field name="missions" type="list:MissionCollectMineral" index="mineralid"/>
+		</bean>
+
+		<bean name="ResumeGuide">
+		</bean>
+
+		<bean name="PathFinding">
+			<field name="content" type="string"/>
+			<field name="curveid" type="int"/>
+		</bean>
+
+		<bean name="HPCheck">
+			<field name="id" type="int"/>
+			<field name="op" type="CompareOperator"/>
+			<field name="percent" type="float"/>
+		</bean>
+
+		<bean name="Transmit">
+		</bean>
+
+		<bean name="ShowGlobalTips"/>
+	</bean>
+
+	<bean name="Area">
+		<bean name="CurveArea">
+			<field name="curveid" type="int" desc="曲线ID"/>
+		</bean>
+
+		<bean name="CircularArea">
+			<field name="radius" type="float" desc="半径"/>
+		</bean>
+	</bean>
+
+	<bean name="Passage">
+		<field name="curveid" type="int" desc="曲线ID"/>
+		<field name="linkedlayout" type="int" desc="连接出入口ID"/>
+		<field name="id" type="int" desc="出入口ID"/>
+	</bean>
+
+	<bean name="Layout">
+		<field name="id" type="int" desc="版面ID"/>1
+		<field name="name" type="string" desc="版面名称"/>1
+		<field name="gfxid" type="int" desc="空气墙ID"/>
+		<field name="candrag" type="bool" desc="是否可以拖屏"/>
+		<field name="dragcount" type="int" desc="拖屏人数"/>
+		<field name="area" type="Area" desc="版面区域"/>1
+		<field name="type" type="LayoutType" desc="版面类型"/>1
+		<field name="enters" type="list:Passage" index="id" desc="版面入口"/>1
+		<field name="exits" type="list:Passage" index="id" desc="版面出口"/>1
+		<field name="scripts" type="list:Action" desc="当前版面所有脚本"/>
+		<field name="startrotation" type="float"/>
+	</bean>
+</configs>

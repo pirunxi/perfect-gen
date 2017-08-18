@@ -1,0 +1,48 @@
+<module name="db">
+	<bean name="User">
+		<field name="a" id="1" type="bool"/>
+		<field name="b" id="2" type="int"/>
+		<field name="c" id="3" type="long"/>
+		<field name="d" id="4" type="string"/>
+		<field name="e" id="5" type="binary"/>
+		<field name="f" id="6" type="float"/>
+		<field name="g" id="7" type="double"/>
+		<field name="l1" id="8" type="list:int"/>
+		<field name="l2" id="9" type="list:User2"/>
+		<field name="s1" id="18" type="set:int"/>
+		<field name="s2" id="19" type="set:User2"/>
+		<field name="m1" id="20" type="map:int:int"/>
+		<field name="m2" id="21" type="map:int:User2"/>
+		
+		<bean name="Task1" id="1">
+		
+		</bean>
+		
+		<bean name="Task2" id="2">
+		
+		</bean>
+		
+		<bean name="Task3" id="4">
+			<field id="23" name="t1" type="int"/>
+			<bean name="Work" id="7">
+				<field id="24" name="t2" type="int"/>
+			</bean>
+			<bean name="Work2" id="8">
+				<field id="25" name="t3" type="int"/>
+			</bean>
+		</bean>
+	</bean>
+	<bean name="User2">
+		<field name="id" id="1" type="int"/>
+	</bean>
+	<table name="Users" key="long" value="User"/>
+
+	<module name="role">
+		<bean name="Role">
+			<field name="id" id="1" type="int"/>
+		</bean>
+		<table name="Roles" key="long" value="Role"/>
+		<table name="Int2Long" key="int" value="long"/>
+	</module>
+	<include name="item.xml"/>
+</module>

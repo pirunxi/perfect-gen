@@ -1,0 +1,7 @@
+<module name="db.item">
+	<bean name="User">
+		<field name="id" id="1" type="int"/>
+	</bean>
+
+	<table name="Users" key="long" value="User"/>
+</module>
